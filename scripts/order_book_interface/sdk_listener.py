@@ -2,14 +2,17 @@ import asyncio
 from kucoin.client import WsToken
 from kucoin.ws_client import KucoinWsClient
 
+order_book_all = {"BTC-USDT", "ETH-USDT"}
+
+
 async def main():
     async def handle_msg(msg):
-        print(msg['data'])
+        print(msg)
 
     client = WsToken()
 
     ws_client = await KucoinWsClient.create(None, client, handle_msg, private=False)
-    await ws_client.subscribe('/market/level2:BTC-USDT,ETH-USDT')
+    await ws_client.subscribe('/spotMarket/level2Depth5:BTC-USDT,ETH-USDT')
     while True:
         await asyncio.sleep(5)
 
