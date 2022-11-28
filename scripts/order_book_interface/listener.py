@@ -2,8 +2,7 @@ import asyncio
 import websockets
 import json
 import requests
-from kucoin.asyncio import KucoinSocketManager
-from kucoin.client import Client
+
 import os
 
 '''KEY = os.getenv('API_KEY')
@@ -26,10 +25,13 @@ async def listen():
                               "response": True})
         await ws.send(out_msg)
         count = 0
+        t0 = 0
         while True:
             msg = await ws.recv()
-            count += 1
-            print(msg)
+            msg = json.loads(msg)
+            if msg['type'] == 'message':
+                print(msg['data']['sequenceStart'], int(msg['data']['sequenceEnd']) - int(msg['data']['sequenceStart']))
+
 
 
 if __name__ == "__main__":
