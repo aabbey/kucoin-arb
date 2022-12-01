@@ -38,6 +38,14 @@ requests = "*"
 websockets = "*"
 
 [[package]]
+name = "numpy"
+version = "1.23.5"
+description = "NumPy is the fundamental package for array computing with Python."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
@@ -79,13 +87,14 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "61d4d5e07997c496ac48027c445a94f2050f7e79bc5b1c19760953046af05fc3"
+content-hash = "a7b973cfce197d5ff8e4ea7e4001770d111a6a39bab52c73e3760a0d7df31c13"
 
 [metadata.files]
 certifi = []
 charset-normalizer = []
 idna = []
 kucoin-python = []
+numpy = []
 requests = []
 urllib3 = []
 websockets = []
