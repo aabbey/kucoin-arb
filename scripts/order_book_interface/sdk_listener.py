@@ -1,7 +1,5 @@
 import asyncio
-import numpy as np
-from scripts import pre_process
-from scripts.trading_scripts import trading
+from pre_processing import pre_process
 from kucoin.client import WsToken
 from kucoin.ws_client import KucoinWsClient
 
