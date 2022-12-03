@@ -1,7 +1,7 @@
 import numpy as np
 from pre_processing import variables
 
-cycle_fees = np.array([(1-.0008)**3]*4)
+cycle_fees = np.array([(1-.0008)**3]*variables.num_cycles)
 
 
 def calc_cycle_scores(adj_mat, cycle_index_tuple, with_fee=True):

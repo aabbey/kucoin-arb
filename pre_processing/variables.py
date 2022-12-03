@@ -25,3 +25,4 @@ def get_unique_curr(symbols):
 currencies = sorted(list(get_unique_curr(symbols_used)))
 print(currencies)
 num_curr = len(currencies)
+num_cycles = 4
