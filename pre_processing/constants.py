@@ -2,7 +2,7 @@ import os
 from kucoin.client import Market
 
 
-symbols_used = {"BTC-USDT", "ETH-USDT", "ETH-BTC", "ADA-BTC", "ADA-USDT"}
+SYMBOLS_USED = ["BTC-USDT", "ETH-USDT", "ETH-BTC", "ADA-BTC", "ADA-USDT"]
 config = {
     "key": os.getenv('API_KEY'),
     "secret": os.getenv('API_SECRET'),
@@ -22,7 +22,11 @@ def get_unique_curr(symbols):
     return set(full_list)
 
 
-currencies = sorted(list(get_unique_curr(symbols_used)))
-print(currencies)
-num_curr = len(currencies)
+def find_cycles(adj_mat):
+    pass
+
+
+CURRENCIES = sorted(list(get_unique_curr(SYMBOLS_USED)))
+print(CURRENCIES)
+num_curr = len(CURRENCIES)
 num_cycles = 4
