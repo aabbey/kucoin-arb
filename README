@@ -1,0 +1,13 @@
+graph TD
+main --> B{pre_process_order_book}
+B --> C[order_book_all]
+C -->D{order_book_to_adj_mat}
+D -->E[am]
+E --> F{calc_cycle_scores}
+EC[am] --> ED
+ED{find_cycles} -->EE
+EE[index_cycle_tuple] -->F
+F--> G[cv]
+G-->H{dot}
+GG[cycles_with_sym]-->H
+H-->I[cv_av_per_curr]
