@@ -4,10 +4,12 @@ B --> C[order_book_all]
 C -->D{order_book_to_adj_mat}
 D -->E[am]
 E --> F{calc_cycle_scores}
-EC[am] --> ED
+E --> ED
 ED{find_cycles} -->EE
-EE[index_cycle_tuple] -->F
+EE[cycle_indicies] -->F
 F--> G[cv]
 G-->H{dot}
+EE -->GF
+GF{find_cycles_with_symbol} -->GG
 GG[cycles_with_sym]-->H
-H-->I[cv_av_per_curr]
+H-->I[cv_av_per_symbol]

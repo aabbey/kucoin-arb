@@ -1,5 +1,7 @@
 import timeit
 import numpy as np
+
+import pre_processing.constants
 from cycle_logic import cycle_logic
 from pre_processing import pre_process
 
@@ -15,21 +17,16 @@ if __name__ == "__main__":
 
 
     order_book_all = pre_process.init_order_book()
-    cycles_with_symbol = np.array([[0.5, 0, 0.5, 0],
-                                [0, 0, 0, 1],
-                                [0, 0, 1, 0],
-                                [1, 0, 0, 0],
-                                [0, 1, 0, 0]])
-
-    s = timeit.default_timer()
+    print(pre_processing.constants.SYMBOLS_USED)
     am = cycle_logic.order_book_to_adj_mat(order_book_all)
-    e1 = timeit.default_timer()
-    cv = cycle_logic.calc_cycle_scores(am, [(0, 0, 1, 1),
-                                            (1, 3, 3, 2),
-                                            (3, 1, 2, 3)],
-                                       False)
-    cv_av_per_curr = np.dot(cycles_with_symbol, cv)
+    print(am)
+    cycle_indicies = pre_process.find_cycles(am)
+    print(cycle_indicies)
+    cycles_with_symbol = pre_process.find_cycles_with_symbol(cycle_indicies)
+    print(cycles_with_symbol)
+    cv = cycle_logic.calc_cycle_scores(am, cycle_indicies, False)
+    cv_av_per_symbol = np.dot(cycles_with_symbol, cv)
 
     print(cv)
-    print(cv_av_per_curr)
+    print(cv_av_per_symbol)
 

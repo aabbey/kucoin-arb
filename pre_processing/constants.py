@@ -2,7 +2,8 @@ import os
 from kucoin.client import Market
 
 
-SYMBOLS_USED = ["BTC-USDT", "ETH-USDT", "ETH-BTC", "ADA-BTC", "ADA-USDT"]
+SYMBOLS_USED = ["BTC-USDT", "ETH-USDT", "ETH-BTC", "ADA-BTC", "ADA-USDT", "DOGE-BTC", "DOGE-USDT", "KCS-ETH",
+                "KCS-BTC", "KCS-USDT", "ADA-KCS", "DOGE-KCS"]
 config = {
     "key": os.getenv('API_KEY'),
     "secret": os.getenv('API_SECRET'),

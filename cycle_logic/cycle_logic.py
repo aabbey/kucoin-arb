@@ -13,8 +13,8 @@ def calc_cycle_scores(adj_mat, cycle_index_tuple, with_fee=True):
     cycle_lengths = len(cycle_index_tuple)
     num_cycles = len(cycle_index_tuple[0])
     step_scores = np.ones(shape=(cycle_lengths, num_cycles))
-    for step in range(cycle_lengths):
-        step_scores[step] = adj_mat[cycle_index_tuple[step], cycle_index_tuple[(step+1) % cycle_lengths]]
+    for step in range(cycle_lengths-1):
+        step_scores[step] = adj_mat[cycle_index_tuple[step], cycle_index_tuple[(step+1)]]
 
     cycle_values = np.prod(step_scores, axis=0)
     if with_fee:
@@ -32,7 +32,7 @@ def order_book_to_adj_mat(order_book):
     ad_mat = np.zeros(shape=(constants.num_curr, constants.num_curr))
     for symbol, ob in order_book.items():
         b, q = symbol.split('-')
-        x_index, y_index = (constants.currencies.index(b), constants.currencies.index(q))
+        x_index, y_index = (constants.CURRENCIES.index(b), constants.CURRENCIES.index(q),)
         ad_mat[x_index, y_index] = float(ob['bids'][0][0])
         ad_mat[y_index, x_index] = 1 / float(ob['asks'][0][0])
 

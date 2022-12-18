@@ -9,8 +9,8 @@ CYCLE_LEN = 3
 
 
 def init_order_book():
-    full_ob = dict.fromkeys(constants.symbols_used)
-    for s in constants.symbols_used:
+    full_ob = dict.fromkeys(constants.SYMBOLS_USED)
+    for s in constants.SYMBOLS_USED:
         ob = constants.market_client.get_aggregated_orderv3(symbol=s)
         ob['bids'] = ob['bids'][:5]
         ob['asks'] = ob['asks'][:5]
@@ -66,3 +66,24 @@ def find_cycles(adjacency_matrix):
         adj_mat = adj_mat[1:, 1:]
 
     return np.array(cycle_indicies).T
+
+
+def ind_for_sym():
+    ind_sym = []
+    for s in constants.SYMBOLS_USED:
+        b, q = s.split('-')
+        ind_sym.append((constants.CURRENCIES.index(b), constants.CURRENCIES.index(q)))
+    return ind_sym
+
+
+
+def find_cycles_with_symbol(cycle_indicies):
+    symbols_index = ind_for_sym()
+    true_list = np.zeros(shape=(len(constants.SYMBOLS_USED), len(cycle_indicies[0])))
+    for sym_num, sym in enumerate(symbols_index):
+        first, second = sym
+        for col_num, col in enumerate(cycle_indicies.T):
+            if first in col and col[list(col).index(first) + 1] == second:
+                true_list[sym_num][col_num] = 1.
+    tl_strd = true_list / np.expand_dims(np.sum(true_list, axis=1), axis=1)
+    return tl_strd
