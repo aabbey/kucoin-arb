@@ -1,5 +1,5 @@
 import os
-from kucoin.client import Market
+from kucoin.client import Market, WsToken
 
 
 SYMBOLS_USED = ["BTC-USDT", "ETH-USDT", "ETH-BTC", "ADA-BTC", "ADA-USDT", "DOGE-BTC", "DOGE-USDT", "KCS-ETH",
@@ -12,6 +12,7 @@ config = {
 }
 
 market_client = Market(**config)
+ws_client = WsToken(**config)
 
 
 def get_unique_curr(symbols):

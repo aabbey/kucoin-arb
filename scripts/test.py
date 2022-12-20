@@ -1,7 +1,8 @@
+import asyncio
 import timeit
 import numpy as np
-
-import pre_processing.constants
+from order_book_interface import sdk_listener
+import pre_processing.constants as c
 from cycle_logic import cycle_logic
 from pre_processing import pre_process
 
@@ -17,7 +18,7 @@ if __name__ == "__main__":
 
 
     order_book_all = pre_process.init_order_book()
-    print(pre_processing.constants.SYMBOLS_USED)
+    print(c.SYMBOLS_USED)
     am = cycle_logic.order_book_to_adj_mat(order_book_all)
     print(am)
     cycle_indicies = pre_process.find_cycles(am)
@@ -29,4 +30,7 @@ if __name__ == "__main__":
 
     print(cv)
     print(cv_av_per_symbol)
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(sdk_listener.main(order_book_all, c.ws_client, cycle_indicies, cycles_with_symbol))
 
