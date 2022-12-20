@@ -11,7 +11,7 @@ CYCLE_LEN = 3
 def init_order_book():
     full_ob = dict.fromkeys(constants.SYMBOLS_USED)
     for s in constants.SYMBOLS_USED:
-        ob = constants.market_client.get_aggregated_orderv3(symbol=s)
+        ob = constants.market_client.get_part_order(pieces=20, symbol=s)
         ob['bids'] = ob['bids'][:5]
         ob['asks'] = ob['asks'][:5]
         full_ob[s] = ob

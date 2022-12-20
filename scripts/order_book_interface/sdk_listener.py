@@ -13,13 +13,11 @@ from kucoin.ws_client import KucoinWsClient
 
 async def main(order_book_all, client, cycle_indicies, cycles_with_symbol):
     async def handle_msg(msg):
-        s = timeit.default_timer()
         symbol = msg['topic'].split(':', 1)[1]
         order_book_all[symbol] = msg['data']
         am = cycle_logic.order_book_to_adj_mat(order_book_all)
         cv = cycle_logic.calc_cycle_scores(am, cycle_indicies, False)
         cv_av_per_symbol = np.dot(cycles_with_symbol, cv)
-        print(timeit.default_timer() - s)
 
 
     ws_client = await KucoinWsClient.create(None, client, handle_msg, private=False)
