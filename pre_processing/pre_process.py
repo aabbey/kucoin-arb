@@ -73,13 +73,14 @@ def ind_for_sym():
     for s in constants.SYMBOLS_USED:
         b, q = s.split('-')
         ind_sym.append((constants.CURRENCIES.index(b), constants.CURRENCIES.index(q)))
+        ind_sym.append((constants.CURRENCIES.index(q), constants.CURRENCIES.index(b)))
     return ind_sym
 
 
 
 def find_cycles_with_symbol(cycle_indicies):
     symbols_index = ind_for_sym()
-    true_list = np.zeros(shape=(len(constants.SYMBOLS_USED), len(cycle_indicies[0])))
+    true_list = np.zeros(shape=(len(symbols_index), len(cycle_indicies[0])))
     for sym_num, sym in enumerate(symbols_index):
         first, second = sym
         for col_num, col in enumerate(cycle_indicies.T):

@@ -8,6 +8,8 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.10"
 kucoin-python = "^1.0.11"
 numpy = "^1.23.5"
+pandas = "^1.5.2"
+matplotlib = "^3.6.2"
 
 [tool.poetry.dev-dependencies]
 

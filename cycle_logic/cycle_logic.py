@@ -1,7 +1,7 @@
 import numpy as np
 from pre_processing import constants
 
-cycle_fees = np.array([(1-.0008)**3]*constants.num_cycles)
+cycle_fees = np.array([(1-.0008)**3]*constants.NUM_CYCLES)
 
 
 def calc_cycle_scores(adj_mat, cycle_index_tuple, with_fee=True):
@@ -29,7 +29,7 @@ def order_book_to_adj_mat(order_book):
     :param order_book: full order ook all
     :return: numpy matrix that is adjacency matrix for best bids and asks
     """
-    ad_mat = np.zeros(shape=(constants.num_curr, constants.num_curr))
+    ad_mat = np.zeros(shape=(constants.NUM_CURR, constants.NUM_CURR))
     for symbol, ob in order_book.items():
         b, q = symbol.split('-')
         x_index, y_index = (constants.CURRENCIES.index(b), constants.CURRENCIES.index(q),)
