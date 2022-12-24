@@ -14,11 +14,11 @@ from kucoin.ws_client import KucoinWsClient
 async def main(order_book_all, client, cycle_indicies, cycles_with_symbol):
     stored_cycle_vals = []
     stored_symbol_scores = []
+    stored_ams = []
     cycle_indicies_str = [str(x) for x in cycle_indicies.T]
     stored_cycle_vals_dict = dict(zip(cycle_indicies_str, [[]]*len(list(cycle_indicies.T))))
     ind_for_sym_str = [str(x) for x in c.IND_FOR_SYM]
     stored_symbol_scores_dict = dict(zip(ind_for_sym_str, [[]]*len(c.IND_FOR_SYM)))
-    count = 0
 
     async def handle_msg(msg):
         # get symbol and update the local order book
@@ -33,13 +33,14 @@ async def main(order_book_all, client, cycle_indicies, cycles_with_symbol):
         # store info for training
         stored_cycle_vals.append(cv)
         stored_symbol_scores.append(cv_av_per_symbol)
+        stored_ams.append(am.tolist())
 
     ws_client = await KucoinWsClient.create(None, client, handle_msg, private=False)
     await ws_client.subscribe('/spotMarket/level2Depth5:' + ','.join(c.SYMBOLS_USED))
     while True:
         await asyncio.sleep(5)
         save_cycle_values(stored_cycle_vals, stored_cycle_vals_dict)
-        save_symbol_scores(stored_symbol_scores, stored_symbol_scores_dict)
+        save_symbol_scores(stored_symbol_scores, stored_symbol_scores_dict, stored_ams)
         sys.exit()
 
 
@@ -50,14 +51,10 @@ def save_cycle_values(stored_cycle_vals, stored_cycle_vals_dict):
         convert_file.write(json.dumps(stored_cycle_vals_dict))
 
 
-def save_symbol_scores(stored_symbol_scores, stored_symbol_scores_dict):
+def save_symbol_scores(stored_symbol_scores, stored_symbol_scores_dict, stored_ams):
     stored_symbol_scores_v = np.array(stored_symbol_scores).T
-    print(np.shape(stored_symbol_scores_v))
     stored_symbol_scores_dict = dict(zip(stored_symbol_scores_dict.keys(), stored_symbol_scores_v.tolist()))
-    '''i = 0
-    for key, value in stored_symbol_scores_dict.items():
-        stored_symbol_scores_dict[key].extend(stored_symbol_scores_v[i].tolist())
-        i += 1'''
+    stored_symbol_scores_dict['am'] = stored_ams
     with open('symbol_scores.txt', 'w') as convert_file:
         convert_file.write(json.dumps(stored_symbol_scores_dict))
 
