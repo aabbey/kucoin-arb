@@ -1,6 +1,9 @@
 import numpy as np
 from ast import literal_eval
 
+zoom_number = 5
+grid_shape = (5, 5)
+
 
 def create_dataset_from_scores(symbol_scores, future_steps):
     """
@@ -30,3 +33,30 @@ def create_dataset_from_scores(symbol_scores, future_steps):
     y = a3[bottom_slice, a1[:, 0], a1[:, 1]] / a3[top_slice, a1[:, 0], a1[:, 1]]
     y = y.flatten()
     return x, y
+
+
+def cost(y_pred, y_true):
+  c = np.sum((y_pred - y_true) ** 2, axis=0)
+  return np.unravel_index(np.argmin(c), c.shape), np.min(c)
+
+def training_loop(x_train, y_train):
+    range_1 = 0.0
+    range_2 = 1.8
+    mid_1 = 0.0
+    mid_2 = 0.5
+    for zoom in range(10):
+        w1_space = np.linspace(mid_1 - range_1, mid_1 + range_1, 50)
+        w2_space = np.linspace(mid_2 - range_2, mid_2 + range_2, 50)
+
+        grid = np.array(np.meshgrid(w1_space, w2_space))
+
+        y = np.power((x_train + grid[np.newaxis, :][:, 0]), grid[np.newaxis, :][:, 1])
+
+        cost_args, c = cost(y, y_train)
+        print(grid[:, cost_args[0], cost_args[1]], c)
+        range_1 /= 1.7
+        range_2 /= 1.7
+        mid_1 = grid[0, cost_args[0], cost_args[1]]
+        mid_2 = grid[1, cost_args[0], cost_args[1]]
+
+

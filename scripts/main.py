@@ -31,6 +31,7 @@ if __name__ == "__main__":
     print("cv : ", cv)
     print("cv_av_per_symbol : ",cv_av_per_symbol)
 
+    sys.exit()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(sdk_listener.main(order_book_all, c.ws_client, cycle_indicies, cycles_with_symbol))
 

@@ -38,7 +38,7 @@ async def main(order_book_all, client, cycle_indicies, cycles_with_symbol):
     ws_client = await KucoinWsClient.create(None, client, handle_msg, private=False)
     await ws_client.subscribe('/spotMarket/level2Depth5:' + ','.join(c.SYMBOLS_USED))
     while True:
-        await asyncio.sleep(5)
+        await asyncio.sleep(100)
         save_cycle_values(stored_cycle_vals, stored_cycle_vals_dict)
         save_symbol_scores(stored_symbol_scores, stored_symbol_scores_dict, stored_ams)
         sys.exit()
